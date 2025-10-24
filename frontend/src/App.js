@@ -4,7 +4,7 @@ import UserList from './UserList';
 function App() {
 return (
 <div>
-<h1>React + MySQL Example</h1>
+<h1>React + MySQL Example UwU</h1>
 
 <UserList />
 </div>
