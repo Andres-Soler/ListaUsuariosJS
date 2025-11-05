@@ -1,13 +1,21 @@
 const express = require('express');
 const cors = require('cors');
+<<<<<<< HEAD
 const mysql = require('mysql2');
 
 const app = express();
+=======
+const usuariosRoutes = require('./routes/usuarios');
+
+const app = express();
+
+>>>>>>> 48421313ca5269b20d86ac969aabdaf48c53113d
 const PORT = 5001;
 
 app.use(cors());
 app.use(express.json());
 
+<<<<<<< HEAD
 // Conexión a MySQL
 const db = mysql.createConnection({
   host: 'localhost',
@@ -64,3 +72,15 @@ app.get('/api/usuarios', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+=======
+app.use('/api/usuarios', usuariosRoutes);
+
+app.get('/', (req, res) => {
+res.json({ message: 'API de Usuarios funcionando correctamente' });
+});
+
+app.listen(PORT, () => {
+console.log(`🚀 Servidor corriendo en
+http://localhost:${PORT}`);
+});
+>>>>>>> 48421313ca5269b20d86ac969aabdaf48c53113d
