@@ -27,7 +27,7 @@ function UserList() {
       await axios.post('http://localhost:5001/api/usuarios', { nombre, email });
       setNombre(''); // Limpiar input
       setEmail('');
-      fetchUsers(); // 🔄 Recarga la lista de usuarios para mostrar el nuevo
+      fetchUsers(); // 🔄 Recarga la lista de usuarios para mostrar el nuevoxd
     } catch (err) {
       console.error(err);
     }
