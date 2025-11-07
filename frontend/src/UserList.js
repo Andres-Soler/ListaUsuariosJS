@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import AddUser from './AddUser';
+import UpdateUser from './UpdateUser';
+import DeleteUser from './DeleteUser';
 
 function UserList() {
   const [users, setUsers] = useState([]);
-  const [nombre, setNombre] = useState('');
-  const [email, setEmail] = useState('');
-
-  // 1️⃣ Fetch inicial de usuarios
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   const fetchUsers = async () => {
     try {
@@ -20,66 +16,15 @@ function UserList() {
     }
   };
 
-  // 2️⃣ Función para agregar usuario
-  const handleAddUser = async (e) => {
-    e.preventDefault(); // Evita que el formulario recargue la página
-    try {
-      await axios.post('http://localhost:5001/api/usuarios', { nombre, email });
-      setNombre(''); // Limpiar input
-      setEmail('');
-      fetchUsers(); // 🔄 Recarga la lista de usuarios para mostrar el nuevoxd
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // 3️⃣ Función para actualizar usuario
-  const handleUpdate = async (id) => {
-    const newName = prompt("Nuevo nombre:");
-    const newEmail = prompt("Nuevo email:");
-    if (!newName || !newEmail) return;
-    try {
-      await axios.put(`http://localhost:5001/api/usuarios/${id}`, { nombre: newName, email: newEmail });
-      fetchUsers(); // Recarga la lista después de actualizar
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // 4️⃣ Función para eliminar usuario
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5001/api/usuarios/${id}`);
-      fetchUsers(); // Recarga la lista después de eliminar
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <div style={{ padding: "20px" }}>
       <h2>User List</h2>
+      <AddUser onUserAdded={fetchUsers} />
 
-      {/* Formulario para agregar usuario */}
-      <form onSubmit={handleAddUser} style={{ marginBottom: '20px' }}>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={nombre}
-          onChange={e => setNombre(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <button type="submit">Agregar Usuario</button>
-      </form>
-
-      {/* Tabla de usuarios */}
       <table border="1" cellPadding="10">
         <thead>
           <tr>
@@ -96,8 +41,8 @@ function UserList() {
               <td>{u.nombre}</td>
               <td>{u.email}</td>
               <td>
-                <button onClick={() => handleUpdate(u.id)}>Editar</button>
-                <button onClick={() => handleDelete(u.id)}>Eliminar</button>
+                <UpdateUser userId={u.id} onUserUpdated={fetchUsers} />
+                <DeleteUser userId={u.id} onUserDeleted={fetchUsers} />
               </td>
             </tr>
           ))}
